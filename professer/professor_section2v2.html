@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Professor | 서비스디자인연구실</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,7 @@
       --bg:#fbfbff;--panel:rgba(255,255,255,.78);--panel-2:rgba(255,255,255,.62);
       --ink:#0b0a12;--text:rgba(11,10,18,.88);--muted:rgba(11,10,18,.58);--line:rgba(11,10,18,.10);
       --shadow-sm:0 10px 24px rgba(10,10,22,.08);--shadow-md:0 18px 55px rgba(10,10,22,.12);--shadow-lg:0 35px 95px rgba(10,10,22,.16);
-      --r-xl:30px;--r-lg:22px;--r-md:16px;--container:1220px;--pad-x:clamp(1.1rem,4vw,3.2rem);
+      --r-xl:30px;--r-lg:22px;--r-md:16px;--container:1220px;--pad-x:clamp(1.1rem,4vw,3.2rem);--tab-h:68px;
     }
     body[data-theme="dark"]{--bg:#070713;--panel:rgba(18,18,30,.70);--panel-2:rgba(18,18,30,.52);--ink:#f4f4ff;--text:rgba(244,244,255,.90);--muted:rgba(244,244,255,.60);--line:rgba(244,244,255,.12);--shadow-sm:0 10px 30px rgba(0,0,0,.35);--shadow-md:0 18px 70px rgba(0,0,0,.45);--shadow-lg:0 40px 110px rgba(0,0,0,.55);}
     *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
@@ -23,7 +23,7 @@
     .container{width:min(var(--container),calc(100% - (var(--pad-x)*2)));margin:0 auto;}
 
     /* NAV */
-    nav{
+    nav#nav{
       position:fixed;
       top:0; left:0; right:0;
       z-index:1000;
@@ -31,7 +31,7 @@
       background: transparent;
       transition: background .22s ease, border-color .22s ease;
     }
-    nav.scrolled{
+    nav#nav.scrolled{
       background: color-mix(in oklab, var(--panel) 78%, transparent);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
@@ -128,9 +128,130 @@
       border-color: color-mix(in oklab, var(--a1) 28%, var(--line));
     }
     .theme-btn svg{ width:18px; height:18px; }
-    @media (max-width: 860px){
-      .nav-links{ display:none; }
+    /* MOBILE TOP NAV */
+    @media screen and (max-width: 860px){
+      .nav-links{ display:none !important; }
+      nav#nav{
+        background: rgba(251,251,255,.96) !important;
+        border-bottom: 1px solid rgba(11,10,18,.10) !important;
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+      }
+      body[data-theme="dark"] nav#nav{
+        background: rgba(7,7,19,.96) !important;
+        border-bottom: 1px solid rgba(244,244,255,.12) !important;
+      }
+      .brand-top{ display:none; }
+      .brand-main{ font-size:.86rem; }
+      .theme-btn .theme-label{ display:none; }
+      .theme-btn{ padding:.55rem .65rem; }
+      .section--hero{ padding-top: calc(56px + 24px) !important; }
     }
+
+    /* MOBILE BOTTOM TAB BAR */
+    .tab-bar{ display:none; }
+
+    @media screen and (max-width: 860px), screen and (hover: none) and (pointer: coarse){
+      body{
+        padding-bottom: calc(var(--tab-h) + env(safe-area-inset-bottom, 0px) + 12px) !important;
+      }
+
+      .tab-bar{
+        display:grid !important;
+        grid-template-columns:repeat(5,minmax(0,1fr)) !important;
+        position:fixed !important;
+        left:0 !important;
+        right:0 !important;
+        bottom:0 !important;
+        width:100% !important;
+        height:calc(var(--tab-h) + env(safe-area-inset-bottom, 0px)) !important;
+        padding:0 4px env(safe-area-inset-bottom, 0px) !important;
+        z-index:2147483647 !important;
+        background:#fbfbff !important;
+        background:rgba(251,251,255,.98) !important;
+        border-top:1px solid rgba(11,10,18,.12) !important;
+        box-shadow:0 -8px 32px rgba(10,10,22,.14) !important;
+        visibility:visible !important;
+        opacity:1 !important;
+        pointer-events:auto !important;
+        transform:translate3d(0,0,0) !important;
+        overflow:hidden !important;
+        isolation:isolate !important;
+      }
+
+      body[data-theme="dark"] .tab-bar{
+        background:#070713 !important;
+        background:rgba(7,7,19,.98) !important;
+        border-top:1px solid rgba(244,244,255,.14) !important;
+        box-shadow:0 -8px 32px rgba(0,0,0,.42) !important;
+      }
+
+      @supports ((backdrop-filter: blur(18px)) or (-webkit-backdrop-filter: blur(18px))){
+        .tab-bar{
+          backdrop-filter:blur(18px) !important;
+          -webkit-backdrop-filter:blur(18px) !important;
+          background:rgba(251,251,255,.88) !important;
+        }
+        body[data-theme="dark"] .tab-bar{
+          background:rgba(7,7,19,.88) !important;
+        }
+      }
+
+      .tab-link{
+        min-width:0 !important;
+        height:100% !important;
+        display:flex !important;
+        flex-direction:column !important;
+        align-items:center !important;
+        justify-content:center !important;
+        gap:3px !important;
+        text-decoration:none !important;
+        color:var(--muted) !important;
+        font-family:var(--font-display) !important;
+        font-size:.54rem !important;
+        font-weight:700 !important;
+        letter-spacing:-.1px !important;
+        position:relative !important;
+        -webkit-tap-highlight-color:transparent !important;
+        white-space:nowrap !important;
+        line-height:1.1 !important;
+      }
+
+      .tab-link svg{
+        width:22px !important;
+        height:22px !important;
+        stroke:currentColor !important;
+        fill:none !important;
+        stroke-width:1.8 !important;
+        flex-shrink:0 !important;
+      }
+
+      .tab-link.active{ color:var(--a1) !important; }
+      .tab-link.active svg{ stroke-width:2.2 !important; }
+      .tab-link.active::after{
+        content:"";
+        position:absolute;
+        top:0;
+        left:20%;
+        right:20%;
+        height:2.5px;
+        border-radius:0 0 4px 4px;
+        background:linear-gradient(90deg,var(--a1),var(--a3));
+      }
+      .tab-link:active svg{ transform:scale(.86); }
+    }
+
+    @media screen and (min-width: 861px) and (hover:hover) and (pointer:fine){
+      .tab-bar{ display:none !important; }
+    }
+
+    html.is-mobile body{
+      padding-bottom: calc(var(--tab-h) + env(safe-area-inset-bottom, 0px) + 12px) !important;
+    }
+    html.is-mobile .tab-bar{
+      display:grid !important;
+    }
+
     .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease;}.reveal.active{opacity:1;transform:translateY(0);}
 
     .section{padding:clamp(4.6rem,8vw,7.2rem) 0;position:relative;isolation:isolate;}
@@ -154,14 +275,18 @@
     .info-block-title{font-family:var(--font-display);font-size:.72rem;font-weight:800;color:var(--a1);letter-spacing:1px;text-transform:uppercase;margin-bottom:.6rem;}
     .info-block p{font-size:.9rem;color:var(--muted);line-height:1.85;}
     .contact-info a{color:var(--a1);text-decoration:none;}.contact-info a:hover{color:var(--a3);}
-    @media(max-width:900px){.hero-grid{grid-template-columns:1fr;}.prof-photo{max-height:400px;}.info-grid{grid-template-columns:1fr;}}
+    @media(max-width:900px){
+      .hero-grid{grid-template-columns:1fr;}
+      .prof-photo{max-height:400px;}
+      .info-grid{grid-template-columns:1fr;}
+    }
 
-    /* YEAR BADGE - opacity는 JS에서 inline style로 */
+    /* YEAR BADGE */
     .year-badge{display:inline-flex;align-items:center;justify-content:center;min-width:52px;padding:.22rem .5rem;background:linear-gradient(135deg,var(--a1),var(--a3));color:#fff;font-family:var(--font-display);font-size:.65rem;font-weight:700;border-radius:999px;flex-shrink:0;}
     .year-badge.alt{background:linear-gradient(135deg,var(--a3),var(--a4));}
     .content-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-xl);box-shadow:var(--shadow-md);padding:clamp(1.4rem,2.8vw,2rem);}
 
-    /* ===== BOOK / RESEARCH: 년도 왼쪽 + 내용 오른쪽 가로 배치 ===== */
+    /* BOOK / RESEARCH: 년도 왼쪽 + 내용 오른쪽 가로 배치 */
     .year-row{display:flex;align-items:flex-start;gap:.7rem;padding:.45rem 0;border-bottom:1px solid var(--line);}
     .year-row:last-child{border-bottom:none;}
     .year-row .year-badge{margin-top:.15rem;}
@@ -183,11 +308,41 @@
     .slider-dot{width:8px;height:8px;border-radius:999px;background:color-mix(in oklab,var(--ink) 30%,transparent);border:none;cursor:pointer;transition:all .2s ease;}.slider-dot.active{background:var(--a1);transform:scale(1.4);}
     @media(max-width:900px){.book-grid{grid-template-columns:1fr;}.slider-track{min-height:350px;}.book-grid .slider-wrap{order:-1;}}
 
-    /* ===== PATENT / DESIGN: 꽉 차게 ===== */
+    /* PATENT */
     .patent-layout{display:flex;flex-direction:column;gap:2rem;}
-    .patent-images-row{display:flex;gap:.8rem;align-items:flex-end;justify-content:center;}
-    .patent-images-row img{height:270px;width:auto;border-radius:var(--r-lg);box-shadow:var(--shadow-md);border:1px solid var(--line);object-fit:contain;}
-    @media(max-width:768px){.patent-images-row{flex-wrap:wrap;}.patent-images-row img{height:180px;}}
+
+    /* Patent images: horizontal scroll on mobile */
+    .patent-images-row{
+      display:flex;
+      gap:.8rem;
+      align-items:flex-end;
+      justify-content:center;
+    }
+    .patent-images-row img{
+      height:270px;
+      width:auto;
+      border-radius:var(--r-lg);
+      box-shadow:var(--shadow-md);
+      border:1px solid var(--line);
+      object-fit:contain;
+    }
+    @media(max-width:768px){
+      .patent-images-row{
+        justify-content:flex-start;
+        overflow-x:auto;
+        -webkit-overflow-scrolling:touch;
+        scroll-snap-type:x mandatory;
+        padding-bottom:.5rem;
+        gap:.6rem;
+      }
+      .patent-images-row::-webkit-scrollbar{height:4px;}
+      .patent-images-row::-webkit-scrollbar-thumb{background:color-mix(in oklab,var(--a1) 30%,transparent);border-radius:2px;}
+      .patent-images-row img{
+        height:200px;
+        flex-shrink:0;
+        scroll-snap-align:center;
+      }
+    }
 
     .year-group{margin-bottom:.9rem;}.year-group:last-child{margin-bottom:0;}
     .year-group-header{margin-bottom:.3rem;}
@@ -198,6 +353,18 @@
 
     .year-row-content.compact li{padding:.12rem 0;font-size:.82rem;line-height:1.45;}
     .year-row-content.compact li + li{border-top:1px dashed color-mix(in oklab,var(--ink) 4%,transparent);}
+
+    /* Design Right 2016 multi-column: only on wide screens */
+    .design-multicol{
+      columns:2;
+      column-gap:1.5rem;
+      column-rule:1px solid var(--line);
+    }
+    @media(max-width:768px){
+      .design-multicol{
+        columns:1;
+      }
+    }
 
     /* RESEARCH */
     .research-grid{display:grid;grid-template-columns:1fr 280px;gap:clamp(1.5rem,3vw,2.5rem);align-items:start;}
@@ -241,12 +408,64 @@
           <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 3a7 7 0 1 0 9 9 9 9 0 0 1-9-9z"/>
           </svg>
-          Theme
+          <span class="theme-label">Theme</span>
         </button>
       </div>
     </div>
   </nav>
 
+  <!-- MOBILE BOTTOM TAB BAR -->
+  <nav class="tab-bar" aria-label="하단 내비게이션">
+    <a class="tab-link" href="../index.html">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 10L12 3l9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10z"/>
+        <path d="M9 21V12h6v9"/>
+      </svg>
+      <span>Home</span>
+    </a>
+
+    <a class="tab-link active" href="../professer/professor_section2v2.html">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="7" r="4"/>
+        <path d="M5.5 21a7.5 7.5 0 0 1 13 0"/>
+      </svg>
+      <span>Professor</span>
+    </a>
+
+    <a class="tab-link" href="../members/members_section2v2.html">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="7" r="3"/>
+        <circle cx="17" cy="9" r="2.5"/>
+        <path d="M2 21a7 7 0 0 1 14 0"/>
+        <path d="M15 21a5 5 0 0 1 8 0"/>
+      </svg>
+      <span>Members</span>
+    </a>
+
+    <a class="tab-link" href="../project/project_section2v2.html">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7" rx="1"/>
+        <rect x="14" y="3" width="7" height="7" rx="1"/>
+        <rect x="14" y="14" width="7" height="7" rx="1"/>
+        <rect x="3" y="14" width="7" height="7" rx="1"/>
+      </svg>
+      <span>Project</span>
+    </a>
+
+    <a class="tab-link" href="../related/related_section2v2.html">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="6" cy="12" r="2.5"/>
+        <circle cx="18" cy="6" r="2.5"/>
+        <circle cx="18" cy="18" r="2.5"/>
+        <line x1="8.2" y1="10.9" x2="15.8" y2="7.1"/>
+        <line x1="8.2" y1="13.1" x2="15.8" y2="16.9"/>
+      </svg>
+      <span>Related</span>
+    </a>
+  </nav>
+
+
+  <!-- HERO -->
   <section class="section section--hero"><div class="container hero-grid">
     <div class="prof-photo reveal"><img src="../professer/professor.png" alt="김선아 교수"></div>
     <div class="prof-card reveal">
@@ -259,7 +478,7 @@
     </div>
   </div></section>
 
-  <!-- BOOK: 년도 왼쪽 | 내용 오른쪽 -->
+  <!-- BOOK -->
   <section class="section section--book"><div class="container book-grid">
     <div class="content-card reveal"><h2 class="section-title">Book</h2><div class="book-scroll">
       <div class="year-row" data-year="2022"><span class="year-badge">2022</span><ul class="year-row-content"><li>"CMF디자인", 금오공과대학교</li><li>"서비스 경험 디자인 이론서", 한국디자인진흥원</li></ul></div>
@@ -283,7 +502,11 @@
 
   <!-- PATENT -->
   <section class="section section--patent"><div class="container patent-layout">
-    <div class="patent-images-row reveal"><img src="../professer/patent_1.png" alt="특허 1"><img src="../professer/patent_3.png" alt="특허 3"><img src="../professer/patent_2.png" alt="특허 2"></div>
+    <div class="patent-images-row reveal">
+      <img src="../professer/patent_1.png" alt="특허 1">
+      <img src="../professer/patent_3.png" alt="특허 3">
+      <img src="../professer/patent_2.png" alt="특허 2">
+    </div>
     <div class="content-card reveal"><h2 class="section-title">Patent</h2>
       <div class="year-row" data-year="2024"><span class="year-badge alt">2024</span><ul class="year-row-content"><li>복합기능성 안대특허 (제10-2739450호)</li></ul></div>
       <div class="year-row" data-year="2017"><span class="year-badge alt">2017</span><ul class="year-row-content"><li>의자 (10-2015-0154707)</li><li>스마트폰 케이스 (10-2015-0154739)</li><li>디스펜서 (10-2015-0154741)</li><li>휴대용 정수기 (10-2015-0154742)</li><li>액세서리 (10-2015-0154740)</li><li>커버가 구비된 콘센트 (10-2015-0185365)</li><li>슬리퍼 겸용 깔창 (10-2015-0185365)</li><li>연필꽂이 (10-2016-0027714)</li><li>안전 발 밴드 (10-2016-0027571)</li></ul></div>
@@ -296,12 +519,12 @@
   <section class="section section--design"><div class="container"><div class="content-card reveal"><h2 class="section-title">Design Right</h2>
     <div class="year-row" data-year="2018"><span class="year-badge alt">2018</span><ul class="year-row-content"><li>보행보조기 (30-2018-0009740)</li><li>취침보조등이 내장된 가습기 (30-2017-0022786)</li><li>휴대용 조명등 (30-2017-0022811)</li><li>공구가 부착된 진공청소기 (30-2017-0022804)</li></ul></div>
     <div class="year-row" data-year="2017"><span class="year-badge alt">2017</span><ul class="year-row-content"><li>핸즈프리 블루투스 스피커 (30-2017-0022790)</li><li>유희용 의류 완구 (30-2016-0013251)</li></ul></div>
-    <div class="year-row" data-year="2016"><span class="year-badge alt">2016</span><ul class="year-row-content compact" style="columns:2;column-gap:1.5rem;column-rule:1px solid var(--line);"><li>녹음기가 부설된 인형완구 (30-2016-0015638)</li><li>녹음기가 부설된 인형완구 (30-2016-0015639)</li><li>음식용 포크 (30-2016-0015586)</li><li>음식용 포크 (30-2016-0015587)</li><li>음식용 포크 (30-2016-0015531)</li><li>음식용 포크 (30-2016-0015532)</li><li>미끄럼방지용 밴드 (30-2016-0013176)</li><li>의자 (30-2016-0013177)</li><li>젖병 (30-2016-0013250)</li><li>휴대용 홀로그램 투영기 (30-2016-0013199)</li><li>슬리퍼가 부설된 깔창 (30-2016-0005107)</li><li>콘센트용 커버 (30-2016-0005104)</li><li>식도용 손잡이 (30-2016-0004983)</li><li>봉지 밀폐용 클립 (30-2016-0004985)</li><li>마우스패드 (30-2016-0004986)</li><li>정전기 방지구 (30-2016-0004945)</li><li>우산용 캡 (30-2016-0004943)</li><li>디스플레이 장치 (30-2015-0063339)</li><li>화학 결합된 세라믹 제품을 제조하는 방법 및 제품 (30-2015-0063340)</li><li>반도체 장치 및 그 제조 방법 (30-2015-0063344)</li><li>텀블러용 뚜껑 (30-2015-0063360)</li><li>라면조리용기 (30-2015-0063361)</li><li>스파우트 마개 (30-2015-0065869)</li><li>직물지 (30-2015-0065768)</li><li>식수용 여과기 (30-2015-0065872)</li></ul></div>
+    <div class="year-row" data-year="2016"><span class="year-badge alt">2016</span><ul class="year-row-content compact design-multicol"><li>녹음기가 부설된 인형완구 (30-2016-0015638)</li><li>녹음기가 부설된 인형완구 (30-2016-0015639)</li><li>음식용 포크 (30-2016-0015586)</li><li>음식용 포크 (30-2016-0015587)</li><li>음식용 포크 (30-2016-0015531)</li><li>음식용 포크 (30-2016-0015532)</li><li>미끄럼방지용 밴드 (30-2016-0013176)</li><li>의자 (30-2016-0013177)</li><li>젖병 (30-2016-0013250)</li><li>휴대용 홀로그램 투영기 (30-2016-0013199)</li><li>슬리퍼가 부설된 깔창 (30-2016-0005107)</li><li>콘센트용 커버 (30-2016-0005104)</li><li>식도용 손잡이 (30-2016-0004983)</li><li>봉지 밀폐용 클립 (30-2016-0004985)</li><li>마우스패드 (30-2016-0004986)</li><li>정전기 방지구 (30-2016-0004945)</li><li>우산용 캡 (30-2016-0004943)</li><li>디스플레이 장치 (30-2015-0063339)</li><li>화학 결합된 세라믹 제품을 제조하는 방법 및 제품 (30-2015-0063340)</li><li>반도체 장치 및 그 제조 방법 (30-2015-0063344)</li><li>텀블러용 뚜껑 (30-2015-0063360)</li><li>라면조리용기 (30-2015-0063361)</li><li>스파우트 마개 (30-2015-0065869)</li><li>직물지 (30-2015-0065768)</li><li>식수용 여과기 (30-2015-0065872)</li></ul></div>
     <div class="year-row" data-year="2015"><span class="year-badge alt">2015</span><ul class="year-row-content"><li>무선 인터넷 서비스 품질 측정 시스템 및 그 방법 (30-2015-0041541)</li><li>콘택트렌즈 케이스용 커버지 (30-2014-0044909)</li><li>콘택트렌즈 케이스 (30-2014-0044906)</li><li>콘택트렌즈 케이스 (30-2014-0044907)</li><li>콘택트렌즈 케이스 (30-2014-0044908)</li></ul></div>
     <div class="year-row" data-year="2014"><span class="year-badge alt">2014</span><ul class="year-row-content"><li>파 (30-2014-0010893)</li></ul></div>
   </div></div></section>
 
-  <!-- RESEARCH: 년도 왼쪽 | 내용 오른쪽 -->
+  <!-- RESEARCH -->
   <section class="section section--research"><div class="container research-grid">
     <div class="content-card reveal"><h2 class="section-title">Research</h2><div class="research-scroll">
       <div class="year-row" data-year="2025.09"><span class="year-badge">25.09</span><ul class="year-row-content"><li>메타버스 기획 프레임워크 (창업융합컨설팅연구)</li></ul></div>
@@ -329,6 +552,16 @@
   <footer><div class="footer-inner"><div class="footer-brand"><img src="../homeImg/01_kumoh_university_logo.png" alt="금오공과대학교"><span>Service Design Lab</span></div><p>&copy; 2026 국립금오공과대학교 서비스디자인연구실. All rights reserved.</p></div></footer>
 
   <script>
+    // 모바일 탭바 강제 활성화 보정
+    const syncMobileClass=()=>{
+      const isMobileWidth=window.matchMedia('(max-width: 860px)').matches;
+      const isTouchDevice=window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+      document.documentElement.classList.toggle('is-mobile',isMobileWidth||isTouchDevice);
+    };
+    syncMobileClass();
+    window.addEventListener('resize',syncMobileClass,{passive:true});
+    window.addEventListener('orientationchange',syncMobileClass,{passive:true});
+
     const nav=document.getElementById('nav');window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>12);});window.addEventListener('load',()=>{nav.classList.toggle('scrolled',window.scrollY>12);});
     const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('active');});},{threshold:.12});document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     const themeBtn=document.getElementById('themeBtn'),themeIcon=document.getElementById('themeIcon');
@@ -341,7 +574,6 @@
 
     // 년도별 배지 opacity - 최신이 진하고, 옛날일수록 연하게
     function applyYearFade(){
-      const allBadges=document.querySelectorAll('[data-year] .year-badge');
       const years=[...new Set([...document.querySelectorAll('[data-year]')].map(el=>{
         const v=el.dataset.year; return parseFloat(v)||0;
       }))].sort((a,b)=>b-a);

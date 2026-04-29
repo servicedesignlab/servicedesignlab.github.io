@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Project | 서비스디자인연구실</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,6 +36,7 @@
 
       --container: 1220px;
       --pad-x: clamp(1.1rem, 4vw, 3.2rem);
+      --tab-h: 68px;
     }
 
     body[data-theme="dark"]{
@@ -71,7 +72,7 @@
     }
 
     /* NAV */
-    nav{
+    nav#nav{
       position:fixed;
       top:0; left:0; right:0;
       z-index:1000;
@@ -79,7 +80,7 @@
       background: transparent;
       transition: background .22s ease, border-color .22s ease;
     }
-    nav.scrolled{
+    nav#nav.scrolled{
       background: color-mix(in oklab, var(--panel) 78%, transparent);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
@@ -176,8 +177,142 @@
       border-color: color-mix(in oklab, var(--a1) 28%, var(--line));
     }
     .theme-btn svg{ width:18px; height:18px; }
-    @media (max-width: 860px){
-      .nav-links{ display:none; }
+    @media screen and (max-width: 860px){
+      .nav-links{ display:none !important; }
+
+      nav#nav{
+        background: rgba(251,251,255,.96) !important;
+        border-bottom: 1px solid rgba(11,10,18,.10) !important;
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+      }
+
+      body[data-theme="dark"] nav#nav{
+        background: rgba(7,7,19,.96) !important;
+        border-bottom: 1px solid rgba(244,244,255,.12) !important;
+      }
+
+      .brand-top{ display:none; }
+      .brand-main{ font-size:.86rem; }
+      .theme-btn .theme-label{ display:none; }
+      .theme-btn{ padding:.55rem .65rem; }
+
+      body{
+        padding-bottom: calc(var(--tab-h) + env(safe-area-inset-bottom, 0px) + 12px) !important;
+      }
+
+      .section--hero{
+        padding-top: calc(56px + 24px) !important;
+      }
+    }
+
+    /* MOBILE BOTTOM TAB BAR */
+    .tab-bar{
+      display:none;
+    }
+
+    @media screen and (max-width: 860px){
+      .tab-bar{
+        display:grid !important;
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        position:fixed !important;
+        left:0 !important;
+        right:0 !important;
+        bottom:0 !important;
+        width:100% !important;
+        height: calc(var(--tab-h) + env(safe-area-inset-bottom, 0px)) !important;
+        padding: 0 4px env(safe-area-inset-bottom, 0px) !important;
+        z-index:9999 !important;
+        background:#fbfbff !important;
+        background:rgba(251,251,255,.98) !important;
+        border-top:1px solid rgba(11,10,18,.12) !important;
+        box-shadow:0 -8px 32px rgba(10,10,22,.14) !important;
+        visibility:visible !important;
+        opacity:1 !important;
+        pointer-events:auto !important;
+        transform:translate3d(0,0,0) !important;
+        overflow:hidden !important;
+      }
+
+      body[data-theme="dark"] .tab-bar{
+        background:#070713 !important;
+        background:rgba(7,7,19,.98) !important;
+        border-top:1px solid rgba(244,244,255,.14) !important;
+        box-shadow:0 -8px 32px rgba(0,0,0,.42) !important;
+      }
+
+      @supports ((backdrop-filter: blur(18px)) or (-webkit-backdrop-filter: blur(18px))){
+        .tab-bar{
+          backdrop-filter:blur(18px) !important;
+          -webkit-backdrop-filter:blur(18px) !important;
+          background:rgba(251,251,255,.88) !important;
+        }
+
+        body[data-theme="dark"] .tab-bar{
+          background:rgba(7,7,19,.88) !important;
+        }
+      }
+
+      .tab-link{
+        min-width:0 !important;
+        height:100% !important;
+        display:flex !important;
+        flex-direction:column !important;
+        align-items:center !important;
+        justify-content:center !important;
+        gap:3px !important;
+        text-decoration:none !important;
+        color:var(--muted) !important;
+        font-family:var(--font-display) !important;
+        font-size:.54rem !important;
+        font-weight:700 !important;
+        letter-spacing:-.1px !important;
+        position:relative !important;
+        -webkit-tap-highlight-color:transparent !important;
+        white-space:nowrap !important;
+        line-height:1.1 !important;
+      }
+
+      .tab-link svg{
+        width:22px !important;
+        height:22px !important;
+        stroke:currentColor !important;
+        fill:none !important;
+        stroke-width:1.8 !important;
+        flex-shrink:0 !important;
+      }
+
+      .tab-link.active{
+        color:var(--a1) !important;
+      }
+
+      .tab-link.active svg{
+        stroke-width:2.2 !important;
+      }
+
+      .tab-link.active::after{
+        content:"";
+        position:absolute;
+        top:0;
+        left:20%;
+        right:20%;
+        height:2.5px;
+        border-radius:0 0 4px 4px;
+        background:linear-gradient(90deg,var(--a1),var(--a3));
+      }
+
+      .tab-link:active svg{
+        transform:scale(.86);
+      }
+    }
+
+
+    html.is-mobile body{
+      padding-bottom: calc(var(--tab-h) + env(safe-area-inset-bottom, 0px) + 12px) !important;
+    }
+
+    html.is-mobile .tab-bar{
+      display:grid !important;
     }
 
     /* SECTION */
@@ -515,7 +650,7 @@
       background: rgba(0,0,0,.85);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      z-index:1000;
+      z-index:20000;
       align-items:center;
       justify-content:center;
     }
@@ -693,11 +828,62 @@
           <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 3a7 7 0 1 0 9 9 9 9 0 0 1-9-9z"/>
           </svg>
-          Theme
+          <span class="theme-label">Theme</span>
         </button>
       </div>
     </div>
   </nav>
+
+  <!-- MOBILE BOTTOM TAB BAR -->
+  <nav class="tab-bar" aria-label="하단 내비게이션">
+    <a class="tab-link" href="../index.html">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 10L12 3l9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10z"/>
+        <path d="M9 21V12h6v9"/>
+      </svg>
+      <span>Home</span>
+    </a>
+
+    <a class="tab-link" href="../professer/professor_section2v2.html">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="7" r="4"/>
+        <path d="M5.5 21a7.5 7.5 0 0 1 13 0"/>
+      </svg>
+      <span>Professor</span>
+    </a>
+
+    <a class="tab-link" href="../members/members_section2v2.html">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="7" r="3"/>
+        <circle cx="17" cy="9" r="2.5"/>
+        <path d="M2 21a7 7 0 0 1 14 0"/>
+        <path d="M15 21a5 5 0 0 1 8 0"/>
+      </svg>
+      <span>Members</span>
+    </a>
+
+    <a class="tab-link active" href="../project/project_section2v2.html">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7" rx="1"/>
+        <rect x="14" y="3" width="7" height="7" rx="1"/>
+        <rect x="14" y="14" width="7" height="7" rx="1"/>
+        <rect x="3" y="14" width="7" height="7" rx="1"/>
+      </svg>
+      <span>Project</span>
+    </a>
+
+    <a class="tab-link" href="../related/related_section2v2.html">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="6" cy="12" r="2.5"/>
+        <circle cx="18" cy="6" r="2.5"/>
+        <circle cx="18" cy="18" r="2.5"/>
+        <line x1="8.2" y1="10.9" x2="15.8" y2="7.1"/>
+        <line x1="8.2" y1="13.1" x2="15.8" y2="16.9"/>
+      </svg>
+      <span>Related</span>
+    </a>
+  </nav>
+
 
   <!-- HERO + SLIDER (Recent Works) -->
   <section class="section section--hero">
@@ -711,6 +897,7 @@
       <div class="hero-slider reveal">
         <div class="slider-container">
           <div class="slider-track" id="projectSlider">
+            <img src="../project/2026_asia_design_prize_1.jpg" alt="2026 ASIA DESIGN PRIZE">
             <img src="../project/2025_cultural_youth_design_livinglab_1.jpg" alt="문화산단 청년디자인리빙랩">
             <img src="../project/2025_k_design_award_1.jpg" alt="K DESIGN AWARD 심사">
             <img src="../project/2025_asia_design_award_1.jpg" alt="ASIA DESIGN AWARD 심사">
@@ -736,51 +923,68 @@
       </div>
 
       <div class="project-grid">
+        <!-- 0: 2026 ASIA DESIGN PRIZE (신규 추가) -->
         <div class="project-card reveal" data-project="0">
+          <div class="project-img"><img src="../project/2026_asia_design_prize_1.jpg" alt="2026 ASIA DESIGN PRIZE"></div>
+          <p class="project-title">2026.03 ASIA DESIGN PRIZE</p>
+        </div>
+        <!-- 1 -->
+        <div class="project-card reveal" data-project="1">
           <div class="project-img"><img src="../project/2025_cultural_youth_design_livinglab_1.jpg" alt="문화산단 청년디자인리빙랩"></div>
           <p class="project-title">문화산단 청년디자인리빙랩</p>
         </div>
-        <div class="project-card reveal" data-project="1">
+        <!-- 2 -->
+        <div class="project-card reveal" data-project="2">
           <div class="project-img"><img src="../project/2025_k_design_award_1.jpg" alt="K DESIGN AWARD 심사"></div>
           <p class="project-title">2025.10 K DESIGN AWARD 심사</p>
         </div>
-        <div class="project-card reveal" data-project="2">
+        <!-- 3 -->
+        <div class="project-card reveal" data-project="3">
           <div class="project-img"><img src="../project/2025_asia_design_award_1.jpg" alt="ASIA DESIGN AWARD 심사"></div>
           <p class="project-title">2025.03 ASIA DESIGN AWARD 심사</p>
         </div>
-        <div class="project-card reveal" data-project="3">
+        <!-- 4 -->
+        <div class="project-card reveal" data-project="4">
           <div class="project-img"><img src="../project/2025_gumi_women_forum_1.jpg" alt="구미 2030 여성 포럼"></div>
           <p class="project-title">2025 구미 2030 여성 포럼</p>
         </div>
-        <div class="project-card reveal" data-project="4">
+        <!-- 5 -->
+        <div class="project-card reveal" data-project="5">
           <div class="project-img"><img src="../project/2024_metaverse_contest_1.png" alt="동북권 메타버스 창작자 경진대회"></div>
           <p class="project-title">제 3회 동북권 메타버스 창작자 경진대회</p>
         </div>
-        <div class="project-card reveal" data-project="5">
+        <!-- 6 -->
+        <div class="project-card reveal" data-project="6">
           <div class="project-img"><img src="../project/2024_gumi_ramen_festival_1.jpg" alt="구미 라면 축제"></div>
           <p class="project-title">2024 구미 라면 축제</p>
         </div>
-        <div class="project-card reveal" data-project="6">
+        <!-- 7 -->
+        <div class="project-card reveal" data-project="7">
           <div class="project-img"><img src="../project/2024_citizen_policy_design_1.png" alt="구미 시민정책디자인단"></div>
           <p class="project-title">2024 구미 시민정책디자인단</p>
         </div>
-        <div class="project-card reveal" data-project="7">
+        <!-- 8 -->
+        <div class="project-card reveal" data-project="8">
           <div class="project-img"><img src="../project/2024_birthrate_workshop_1.png" alt="저출생 리서치 워크숍"></div>
           <p class="project-title">2024 저출생 리서치 워크숍</p>
         </div>
-        <div class="project-card reveal" data-project="8">
+        <!-- 9 -->
+        <div class="project-card reveal" data-project="9">
           <div class="project-img"><img src="../project/2024_asia_design_award_1.png" alt="ASIA DESIGN PRIZE AWARD"></div>
           <p class="project-title">2024 ASIA DESIGN PRIZE AWARD</p>
         </div>
-        <div class="project-card reveal" data-project="9">
+        <!-- 10 -->
+        <div class="project-card reveal" data-project="10">
           <div class="project-img"><img src="../project/2024_gwangju_biennale_1.png" alt="광주 디자인비엔날레"></div>
           <p class="project-title">2024 광주 디자인비엔날레</p>
         </div>
-        <div class="project-card reveal" data-project="10">
+        <!-- 11 -->
+        <div class="project-card reveal" data-project="11">
           <div class="project-img"><img src="../project/2023_citizen_policy_design_1.png" alt="2023 구미 시민정책디자인단"></div>
           <p class="project-title">2023 구미 시민정책디자인단</p>
         </div>
-        <div class="project-card reveal" data-project="11">
+        <!-- 12 -->
+        <div class="project-card reveal" data-project="12">
           <div class="project-img"><img src="../project/2022_hackathon_1.png" alt="산학 해커톤"></div>
           <p class="project-title">2022 산학 해커톤</p>
         </div>
@@ -805,6 +1009,11 @@
         </ul>
 
         <ul class="project-list reveal">
+          <!-- 2026 신규 추가 -->
+          <li>
+            <span class="project-list-title">ASIA DESIGN PRIZE 심사</span>
+            <span class="project-date"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>2026.03</span></span>
+          </li>
           <li>
             <span class="project-list-title">K DESIGN AWARD 심사</span>
             <span class="project-date"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>2025.10</span></span>
@@ -974,6 +1183,16 @@
   </footer>
 
   <script>
+    // Mobile tab helper
+    const syncMobileClass = () => {
+      const isMobileWidth = window.matchMedia('(max-width: 860px)').matches;
+      const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+      document.documentElement.classList.toggle('is-mobile', isMobileWidth || isTouchDevice);
+    };
+    syncMobileClass();
+    window.addEventListener('resize', syncMobileClass, { passive: true });
+    window.addEventListener('orientationchange', syncMobileClass, { passive: true });
+
     // Nav scroll
     const nav = document.getElementById('nav');
     const setScrolled = () => {
@@ -1031,8 +1250,9 @@
     }
     setInterval(() => moveSlide(1), 5000);
 
-    // Project Detail Data
+    // Project Detail Data — index 0: 2026 ASIA DESIGN PRIZE (신규), 나머지 +1 shift
     const projectData = [
+      { title: '2026.03 ASIA DESIGN PRIZE', basePath: '../project/2026_asia_design_prize_', extensions: ['jpg', 'jpg'] },
       { title: '문화산단 청년디자인리빙랩', basePath: '../project/2025_cultural_youth_design_livinglab_', extensions: ['jpg', 'JPG', 'JPG', 'JPG', 'jpg'] },
       { title: '2025.10 K DESIGN AWARD 심사', basePath: '../project/2025_k_design_award_', extensions: ['jpg', 'jpg', 'jpg'] },
       { title: '2025.03 ASIA DESIGN AWARD 심사', basePath: '../project/2025_asia_design_award_', extensions: ['jpg', 'jpg', 'jpg'] },

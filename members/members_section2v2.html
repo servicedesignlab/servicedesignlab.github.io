@@ -13,590 +13,181 @@
     :root{
       --font-display: "Unbounded", system-ui, sans-serif;
       --font-body: "IBM Plex Sans KR", system-ui, sans-serif;
-
-      --a1: #ff4fbf;
-      --a2: #b7ff2a;
-      --a3: #2a5bff;
-      --a4: #00e5ff;
-
-      --bg: #fbfbff;
-      --panel: rgba(255,255,255,.78);
-      --panel-2: rgba(255,255,255,.62);
-      --ink: #0b0a12;
-      --text: rgba(11,10,18,.88);
-      --muted: rgba(11,10,18,.58);
-      --line: rgba(11,10,18,.10);
-      --shadow-sm: 0 10px 24px rgba(10,10,22,.08);
-      --shadow-md: 0 18px 55px rgba(10,10,22,.12);
-      --shadow-lg: 0 35px 95px rgba(10,10,22,.16);
-
-      --r-xl: 30px;
-      --r-lg: 22px;
-      --r-md: 16px;
-
-      --container: 1220px;
-      --pad-x: clamp(1.1rem, 4vw, 3.2rem);
+      --a1: #ff4fbf; --a2: #b7ff2a; --a3: #2a5bff; --a4: #00e5ff;
+      --bg: #fbfbff; --panel: rgba(255,255,255,.78); --panel-2: rgba(255,255,255,.62);
+      --ink: #0b0a12; --text: rgba(11,10,18,.88); --muted: rgba(11,10,18,.58); --line: rgba(11,10,18,.10);
+      --shadow-sm: 0 10px 24px rgba(10,10,22,.08); --shadow-md: 0 18px 55px rgba(10,10,22,.12); --shadow-lg: 0 35px 95px rgba(10,10,22,.16);
+      --r-xl: 30px; --r-lg: 22px; --r-md: 16px;
+      --container: 1220px; --pad-x: clamp(1.1rem, 4vw, 3.2rem);
+      --tab-h: 68px;
     }
-
     body[data-theme="dark"]{
-      --bg: #070713;
-      --panel: rgba(18,18,30,.70);
-      --panel-2: rgba(18,18,30,.52);
-      --ink: #f4f4ff;
-      --text: rgba(244,244,255,.90);
-      --muted: rgba(244,244,255,.60);
-      --line: rgba(244,244,255,.12);
-      --shadow-sm: 0 10px 30px rgba(0,0,0,.35);
-      --shadow-md: 0 18px 70px rgba(0,0,0,.45);
-      --shadow-lg: 0 40px 110px rgba(0,0,0,.55);
+      --bg: #070713; --panel: rgba(18,18,30,.70); --panel-2: rgba(18,18,30,.52);
+      --ink: #f4f4ff; --text: rgba(244,244,255,.90); --muted: rgba(244,244,255,.60); --line: rgba(244,244,255,.12);
+      --shadow-sm: 0 10px 30px rgba(0,0,0,.35); --shadow-md: 0 18px 70px rgba(0,0,0,.45); --shadow-lg: 0 40px 110px rgba(0,0,0,.55);
     }
-
     *{ margin:0; padding:0; box-sizing:border-box; }
     html{ scroll-behavior:smooth; }
-    body{
-      font-family: var(--font-body);
-      color: var(--text);
-      background: var(--bg);
-      line-height: 1.7;
-      overflow-x:hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-    a{ color:inherit; }
-    img{ display:block; }
-    ::selection{ background: rgba(255,79,191,.22); }
+    body{ font-family:var(--font-body); color:var(--text); background:var(--bg); line-height:1.7; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+    a{ color:inherit; } img{ display:block; } ::selection{ background:rgba(255,79,191,.22); }
+    .container{ width:min(var(--container), calc(100% - (var(--pad-x) * 2))); margin:0 auto; }
 
-    .container{
-      width:min(var(--container), calc(100% - (var(--pad-x) * 2)));
-      margin:0 auto;
-    }
-
-    /* ==========================
-       NAV
-       ========================== */
-    nav{
-      position:fixed;
-      top:0; left:0; right:0;
-      z-index:1000;
-      padding: 14px var(--pad-x);
-      background: transparent;
-      transition: background .22s ease, border-color .22s ease;
-    }
-    nav.scrolled{
-      background: color-mix(in oklab, var(--panel) 78%, transparent);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--line);
-    }
-    .nav-inner{
-      width:min(var(--container), calc(100% - (var(--pad-x) * 0)));
-      margin:0 auto;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 1rem;
-    }
-
-    .nav-brand{
-      display:flex;
-      align-items:center;
-      gap:.85rem;
-      text-decoration:none;
-      min-width: 240px;
-    }
-    .nav-brand img{ height: 28px; width:auto; }
-    .brand-text{ display:flex; flex-direction:column; line-height:1.1; }
-    .brand-top{
-      font-size:.72rem;
-      color: var(--muted);
-      font-weight:600;
-      letter-spacing:.2px;
-    }
-    .brand-main{
-      font-family: var(--font-display);
-      font-size:.92rem;
-      font-weight:700;
-      letter-spacing:-0.6px;
-      color: var(--ink);
-    }
-
-    .nav-right{
-      display:flex;
-      align-items:center;
-      gap: 1.1rem;
-    }
-    .nav-links{
-      list-style:none;
-      display:flex;
-      gap: 1.4rem;
-      align-items:center;
-    }
-    .nav-links a{
-      text-decoration:none;
-      font-family: var(--font-display);
-      font-weight:700;
-      font-size:.82rem;
-      letter-spacing:-0.4px;
-      color: color-mix(in oklab, var(--ink) 70%, transparent);
-      position:relative;
-      padding: .35rem 0;
-      transition: color .2s ease;
-    }
-    .nav-links a::after{
-      content:"";
-      position:absolute;
-      left:0; bottom:-2px;
-      width:0%;
-      height:2px;
-      background: linear-gradient(90deg, var(--a1), var(--a2), var(--a3));
-      transition: width .25s ease;
-    }
-    .nav-links a:hover{ color: var(--ink); }
-    .nav-links a:hover::after{ width:100%; }
-    .nav-links a.active{ color: var(--ink); }
-    .nav-links a.active::after{ width:100%; }
-
-    .theme-btn{
-      appearance:none;
-      border:none;
-      cursor:pointer;
-      display:inline-flex;
-      align-items:center;
-      gap:.55rem;
-      padding: .55rem .85rem;
-      border-radius: 999px;
-      background: var(--panel-2);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow-sm);
-      color: var(--ink);
-      font-family: var(--font-display);
-      font-weight:700;
-      font-size:.78rem;
-      letter-spacing:-0.35px;
-      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-      user-select:none;
-    }
-    .theme-btn:hover{
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-md);
-      border-color: color-mix(in oklab, var(--a1) 28%, var(--line));
-    }
+    /* NAV */
+    nav#nav{ position:fixed; top:0; left:0; right:0; z-index:1000; padding:14px var(--pad-x); background:transparent; transition:background .22s ease, border-color .22s ease; }
+    nav#nav.scrolled{ background:rgba(251,251,255,.90); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-bottom:1px solid var(--line); }
+    body[data-theme="dark"] nav#nav.scrolled{ background:rgba(7,7,19,.90); }
+    .nav-inner{ width:min(var(--container), 100%); margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+    .nav-brand{ display:flex; align-items:center; gap:.85rem; text-decoration:none; min-width:0; }
+    .nav-brand img{ height:28px; width:auto; flex:0 0 auto; }
+    .brand-text{ display:flex; flex-direction:column; line-height:1.1; min-width:0; }
+    .brand-top{ font-size:.72rem; color:var(--muted); font-weight:600; letter-spacing:.2px; }
+    .brand-main{ font-family:var(--font-display); font-size:.92rem; font-weight:700; letter-spacing:-.6px; color:var(--ink); white-space:nowrap; }
+    .nav-right{ display:flex; align-items:center; gap:1.1rem; }
+    .nav-links{ list-style:none; display:flex; gap:1.4rem; align-items:center; }
+    .nav-links a{ text-decoration:none; font-family:var(--font-display); font-weight:700; font-size:.82rem; letter-spacing:-.4px; color:rgba(11,10,18,.65); position:relative; padding:.35rem 0; transition:color .2s ease; }
+    body[data-theme="dark"] .nav-links a{ color:rgba(244,244,255,.65); }
+    .nav-links a::after{ content:""; position:absolute; left:0; bottom:-2px; width:0; height:2px; background:linear-gradient(90deg,var(--a1),var(--a2),var(--a3)); transition:width .25s ease; }
+    .nav-links a:hover, .nav-links a.active{ color:var(--ink); }
+    .nav-links a:hover::after, .nav-links a.active::after{ width:100%; }
+    .theme-btn{ appearance:none; border:none; cursor:pointer; display:inline-flex; align-items:center; gap:.55rem; padding:.55rem .85rem; border-radius:999px; background:var(--panel-2); border:1px solid var(--line); box-shadow:var(--shadow-sm); color:var(--ink); font-family:var(--font-display); font-weight:700; font-size:.78rem; letter-spacing:-.35px; transition:transform .18s ease, box-shadow .18s ease; user-select:none; flex:0 0 auto; }
+    .theme-btn:hover{ transform:translateY(-1px); box-shadow:var(--shadow-md); }
     .theme-btn svg{ width:18px; height:18px; }
 
-    @media (max-width: 860px){
-      .nav-links{ display:none; }
+    /* ============================================================
+       MOBILE TAB BAR
+       ============================================================ */
+    .tab-bar { display: none; }
+
+    @media screen and (max-width: 860px) {
+      .nav-links { display: none !important; }
+      nav#nav {
+        background: rgba(251,251,255,.96) !important;
+        border-bottom: 1px solid rgba(11,10,18,.10) !important;
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+      }
+      body[data-theme="dark"] nav#nav {
+        background: rgba(7,7,19,.96) !important;
+        border-bottom: 1px solid rgba(244,244,255,.12) !important;
+      }
+      .brand-top { display: none; }
+      .theme-btn .theme-label { display: none; }
+      .theme-btn { padding: .55rem .65rem; }
+      body { padding-bottom: calc(var(--tab-h) + env(safe-area-inset-bottom, 0px)) !important; }
+      .section--hero { padding-top: calc(56px + 24px) !important; }
+
+      .tab-bar {
+        display: grid !important;
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        position: fixed !important;
+        left: 0 !important; right: 0 !important; bottom: 0 !important;
+        width: 100% !important;
+        height: calc(var(--tab-h) + env(safe-area-inset-bottom, 0px)) !important;
+        padding: 0 4px env(safe-area-inset-bottom, 0px) !important;
+        z-index: 9999 !important;
+        background: rgba(251,251,255,.98) !important;
+        border-top: 1px solid rgba(11,10,18,.12) !important;
+        box-shadow: 0 -8px 32px rgba(10,10,22,.14) !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+      }
+      body[data-theme="dark"] .tab-bar {
+        background: rgba(7,7,19,.98) !important;
+        border-top: 1px solid rgba(244,244,255,.14) !important;
+      }
+      .tab-link {
+        min-width: 0 !important; height: 100% !important;
+        display: flex !important; flex-direction: column !important;
+        align-items: center !important; justify-content: center !important;
+        gap: 3px !important; text-decoration: none !important;
+        color: rgba(11,10,18,.50) !important;
+        font-family: var(--font-display) !important;
+        font-size: .54rem !important; font-weight: 700 !important;
+        position: relative !important;
+        -webkit-tap-highlight-color: transparent !important;
+        white-space: nowrap !important; line-height: 1.1 !important;
+      }
+      body[data-theme="dark"] .tab-link { color: rgba(244,244,255,.50) !important; }
+      .tab-link svg { width:22px !important; height:22px !important; stroke:currentColor !important; fill:none !important; stroke-width:1.8 !important; flex-shrink:0 !important; }
+      .tab-link.active { color: #ff4fbf !important; }
+      .tab-link.active svg { stroke-width: 2.2 !important; }
+      .tab-link.active::after { content:""; position:absolute; top:0; left:20%; right:20%; height:2.5px; border-radius:0 0 4px 4px; background:linear-gradient(90deg,#ff4fbf,#2a5bff); }
+      .tab-link:active svg { transform: scale(.86); }
     }
 
-    /* ==========================
-       REVEAL
-       ========================== */
-    .reveal{
-      opacity:0;
-      transform: translateY(16px);
-      transition: opacity .7s ease, transform .7s ease;
-    }
-    .reveal.active{
-      opacity:1;
-      transform: translateY(0);
-    }
+    /* REVEAL */
+    .reveal{ opacity:0; transform:translateY(16px); transition:opacity .7s ease, transform .7s ease; }
+    .reveal.active{ opacity:1; transform:translateY(0); }
 
-    /* ==========================
-       SECTIONS
-       ========================== */
-    .section{
-      padding: clamp(4.6rem, 8vw, 7.2rem) 0;
-      position:relative;
-      isolation:isolate;
-    }
+    /* SECTIONS */
+    .section{ padding:clamp(4.6rem,8vw,7.2rem) 0; position:relative; isolation:isolate; }
+    .section--hero{ padding-top:112px; padding-bottom:clamp(3.2rem,6vw,5.2rem); background:radial-gradient(1200px 700px at 78% -10%,rgba(255,79,191,.22),transparent 60%),radial-gradient(1000px 650px at 10% 20%,rgba(42,91,255,.14),transparent 60%),radial-gradient(900px 650px at 88% 75%,rgba(183,255,42,.11),transparent 55%); }
+    .section--alumni{ background:linear-gradient(180deg,rgba(255,255,255,.3),transparent 60%),radial-gradient(900px 500px at 12% 20%,rgba(0,229,255,.08),transparent 60%); border-top:1px solid var(--line); }
 
-    .section--hero{
-      padding-top: 112px;
-      padding-bottom: clamp(3.2rem, 6vw, 5.2rem);
-      background:
-        radial-gradient(1200px 700px at 78% -10%, color-mix(in oklab, var(--a1) 28%, transparent), transparent 60%),
-        radial-gradient(1000px 650px at 10% 20%, color-mix(in oklab, var(--a3) 18%, transparent), transparent 60%),
-        radial-gradient(900px 650px at 88% 75%, color-mix(in oklab, var(--a2) 14%, transparent), transparent 55%);
-    }
+    /* PAGE HEADER */
+    .page-header{ text-align:center; margin-bottom:clamp(2.5rem,5vw,4rem); }
+    .bar-label{ display:inline-flex; align-items:center; gap:.55rem; font-family:var(--font-display); font-weight:800; font-size:.78rem; letter-spacing:.6px; text-transform:uppercase; color:var(--muted); margin-bottom:.5rem; }
+    .bar-label::before{ content:""; width:12px; height:12px; border-radius:999px; background:conic-gradient(from 220deg,var(--a1),var(--a2),var(--a3),var(--a1)); box-shadow:0 0 0 5px rgba(255,79,191,.12); }
+    .page-title{ font-family:var(--font-display); font-weight:800; letter-spacing:-2px; line-height:1.1; color:var(--ink); font-size:clamp(2.2rem,4.5vw,3.2rem); }
+    .page-subtitle{ font-family:var(--font-display); font-weight:700; font-size:clamp(1.1rem,2.2vw,1.5rem); letter-spacing:-.6px; color:var(--muted); }
+    .page-subtitle .grad{ background:linear-gradient(90deg,var(--a1),var(--a2),var(--a3)); -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; font-weight:800; }
+    .section-title{ font-family:var(--font-display); font-weight:800; letter-spacing:-1.4px; line-height:1.05; color:var(--ink); font-size:clamp(1.8rem,3.2vw,2.6rem); margin-bottom:1.5rem; }
 
-    .section--alumni{
-      background:
-        linear-gradient(180deg, color-mix(in oklab, var(--panel) 40%, transparent), transparent 60%),
-        radial-gradient(900px 500px at 12% 20%, color-mix(in oklab, var(--a4) 10%, transparent), transparent 60%);
-      border-top: 1px solid var(--line);
-    }
+    /* MEMBERS GRID */
+    .members-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; max-width:1000px; margin:0 auto; }
+    .member-card{ background:var(--panel); border:1px solid var(--line); border-radius:var(--r-xl); box-shadow:var(--shadow-md); overflow:hidden; position:relative; transition:transform .25s ease, box-shadow .25s ease; }
+    .member-card::before{ content:""; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg,var(--a1),var(--a2),var(--a3)); opacity:0; transition:opacity .25s ease; }
+    .member-card:hover{ box-shadow:var(--shadow-lg); }
+    .member-card:hover::before{ opacity:1; }
+    .member-avatar{ width:100%; height:300px; overflow:hidden; position:relative; }
+    .member-avatar::after{ content:""; position:absolute; bottom:0; left:0; right:0; height:80px; background:linear-gradient(to top,var(--panel),transparent); pointer-events:none; }
+    .member-avatar img{ width:100%; height:100%; object-fit:cover; object-position:center top; }
+    .member-info{ padding:1.2rem 1.5rem 1.5rem; text-align:center; margin-top:-20px; position:relative; }
+    .member-name{ font-family:var(--font-display); font-size:1.1rem; font-weight:800; color:var(--ink); letter-spacing:2px; margin-bottom:.15rem; }
+    .member-name-en{ font-family:var(--font-display); font-size:.68rem; font-weight:600; color:var(--muted); letter-spacing:1px; margin-bottom:.8rem; text-transform:capitalize; }
+    .member-role{ display:inline-block; padding:.3rem .8rem; background:linear-gradient(135deg,rgba(255,79,191,.20),rgba(42,91,255,.15)); border-radius:999px; font-family:var(--font-display); font-size:.68rem; font-weight:700; color:var(--a1); margin-bottom:.8rem; }
+    .member-dept{ font-size:.8rem; color:var(--muted); margin-bottom:.2rem; }
+    .member-email{ font-size:.72rem; color:var(--muted); margin-bottom:.8rem; }
+    .research-badge{ display:inline-block; padding:.35rem .9rem; background:linear-gradient(135deg,var(--a1),var(--a3)); border-radius:999px; font-family:var(--font-display); font-size:.65rem; font-weight:700; color:#fff; margin-bottom:.5rem; }
+    .member-research{ font-size:.75rem; color:var(--muted); line-height:1.6; }
+    @media (max-width:900px){ .members-grid{ grid-template-columns:repeat(2,1fr); max-width:600px; } }
+    @media (max-width:600px){ .members-grid{ grid-template-columns:1fr; max-width:320px; } }
 
-    /* ==========================
-       TITLE BAR
-       ========================== */
-    .page-header{
-      text-align: center;
-      margin-bottom: clamp(2.5rem, 5vw, 4rem);
-    }
-    .bar-label{
-      display:inline-flex;
-      align-items:center;
-      gap:.55rem;
-      font-family: var(--font-display);
-      font-weight:800;
-      font-size:.78rem;
-      letter-spacing: .6px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: .5rem;
-    }
-    .bar-label::before{
-      content:"";
-      width: 12px;
-      height: 12px;
-      border-radius: 999px;
-      background: conic-gradient(from 220deg, var(--a1), var(--a2), var(--a3), var(--a1));
-      box-shadow: 0 0 0 5px color-mix(in oklab, var(--a1) 12%, transparent);
-    }
-    .page-title{
-      font-family: var(--font-display);
-      font-weight: 800;
-      letter-spacing: -2px;
-      line-height: 1.1;
-      color: var(--ink);
-      font-size: clamp(2.2rem, 4.5vw, 3.2rem);
-    }
-    .page-subtitle{
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: clamp(1.1rem, 2.2vw, 1.5rem);
-      letter-spacing: -0.6px;
-      color: var(--muted);
-    }
-    .page-subtitle .grad{
-      background: linear-gradient(90deg, var(--a1), var(--a2), var(--a3));
-      background-size: 160% 160%;
-      -webkit-background-clip:text;
-      background-clip:text;
-      color: transparent;
-      -webkit-text-fill-color: transparent;
-      font-weight: 800;
-    }
+    /* ALUMNI */
+    .alumni-header{ text-align:center; margin-bottom:2.5rem; }
+    .alumni-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:1.5rem; }
+    .alumni-card{ background:var(--panel); border:1px solid var(--line); border-radius:var(--r-xl); box-shadow:var(--shadow-md); padding:1.8rem 2rem; position:relative; overflow:hidden; }
+    .alumni-card::before{ content:""; position:absolute; top:0; left:0; right:0; height:4px; }
+    .alumni-card--field::before{ background:linear-gradient(90deg,var(--a1),var(--a2)); }
+    .alumni-card--job::before{ background:linear-gradient(90deg,var(--a3),var(--a4)); }
+    .alumni-card--achievement::before{ background:linear-gradient(90deg,var(--a1),var(--a2),var(--a3)); }
+    .alumni-card-header{ display:flex; align-items:center; gap:1rem; margin-bottom:1.5rem; }
+    .alumni-card-icon{ width:44px; height:44px; border-radius:14px; display:grid; place-items:center; background:linear-gradient(135deg,rgba(255,79,191,.20),rgba(42,91,255,.15)); border:1px solid var(--line); }
+    .alumni-card-icon svg{ width:20px; height:20px; stroke:var(--a1); }
+    .alumni-card-title{ font-family:var(--font-display); font-size:1.1rem; font-weight:800; color:var(--ink); letter-spacing:1px; }
+    .alumni-tags{ display:flex; flex-wrap:wrap; gap:.5rem; }
+    .alumni-tag{ display:inline-block; padding:.4rem .85rem; border-radius:999px; font-size:.75rem; font-weight:600; background:rgba(255,79,191,.12); color:var(--a1); border:1px solid rgba(255,79,191,.20); transition:all .2s ease; }
+    .alumni-tag:hover{ background:var(--a1); color:#fff; transform:translateY(-2px); }
+    .alumni-tag--job{ background:rgba(42,91,255,.12); color:var(--a3); border-color:rgba(42,91,255,.20); }
+    .alumni-tag--job:hover{ background:var(--a3); color:#fff; }
+    .achievements-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:.5rem 1rem; }
+    .achievement-item{ display:flex; align-items:flex-start; gap:.5rem; padding:.5rem 0; border-bottom:1px solid var(--line); }
+    .achievement-item:last-child, .achievement-item:nth-last-child(2), .achievement-item:nth-last-child(3){ border-bottom:none; }
+    .achievement-dot{ width:8px; height:8px; min-width:8px; border-radius:999px; margin-top:6px; }
+    .achievement-dot--pink{ background:var(--a1); box-shadow:0 0 8px rgba(255,79,191,.50); }
+    .achievement-item span:last-child{ font-size:.78rem; color:var(--muted); line-height:1.5; }
+    @media (max-width:900px){ .alumni-grid{ grid-template-columns:1fr; } .achievements-grid{ grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:600px){ .achievements-grid{ grid-template-columns:1fr; } }
 
-    .section-title{
-      font-family: var(--font-display);
-      font-weight: 800;
-      letter-spacing: -1.4px;
-      line-height: 1.05;
-      color: var(--ink);
-      font-size: clamp(1.8rem, 3.2vw, 2.6rem);
-      margin-bottom: 1.5rem;
-    }
-    .section-title .grad{
-      background: linear-gradient(90deg, var(--a1), var(--a2), var(--a3));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color: transparent;
-    }
-
-    /* ==========================
-       MEMBERS GRID
-       ========================== */
-    .members-grid{
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    .member-card{
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--r-xl);
-      box-shadow: var(--shadow-md);
-      overflow: hidden;
-      position: relative;
-      transition: transform .25s ease, box-shadow .25s ease;
-    }
-    .member-card::before{
-      content:"";
-      position:absolute;
-      top:0; left:0; right:0;
-      height:4px;
-      background: linear-gradient(90deg, var(--a1), var(--a2), var(--a3));
-      opacity: 0;
-      transition: opacity .25s ease;
-    }
-    .member-card:hover{
-      box-shadow: var(--shadow-lg);
-    }
-    .member-card:hover::before{
-      opacity: 1;
-    }
-
-    .member-avatar{
-      width: 100%;
-      height: 300px;
-      overflow: hidden;
-      position: relative;
-    }
-    .member-avatar::after{
-      content:"";
-      position:absolute;
-      bottom:0; left:0; right:0;
-      height: 80px;
-      background: linear-gradient(to top, var(--panel), transparent);
-      pointer-events: none;
-    }
-    .member-avatar img{
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
-    }
-
-    .member-info{
-      padding: 1.2rem 1.5rem 1.5rem;
-      text-align: center;
-      margin-top: -20px;
-      position: relative;
-    }
-    .member-name{
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: var(--ink);
-      letter-spacing: 2px;
-      margin-bottom: .15rem;
-    }
-    .member-name-en{
-      font-family: var(--font-display);
-      font-size: .68rem;
-      font-weight: 600;
-      color: var(--muted);
-      letter-spacing: 1px;
-      margin-bottom: .8rem;
-      text-transform: capitalize;
-    }
-    .member-role{
-      display: inline-block;
-      padding: .3rem .8rem;
-      background: linear-gradient(135deg, color-mix(in oklab, var(--a1) 20%, transparent), color-mix(in oklab, var(--a3) 15%, transparent));
-      border-radius: 999px;
-      font-family: var(--font-display);
-      font-size: .68rem;
-      font-weight: 700;
-      color: var(--a1);
-      margin-bottom: .8rem;
-    }
-    .member-dept{
-      font-size: .8rem;
-      color: var(--muted);
-      margin-bottom: .2rem;
-    }
-    .member-email{
-      font-size: .72rem;
-      color: var(--muted);
-      margin-bottom: .8rem;
-    }
-    .research-badge{
-      display: inline-block;
-      padding: .35rem .9rem;
-      background: linear-gradient(135deg, var(--a1), var(--a3));
-      border-radius: 999px;
-      font-family: var(--font-display);
-      font-size: .65rem;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: .5rem;
-    }
-    .member-research{
-      font-size: .75rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    @media (max-width: 900px){
-      .members-grid{ grid-template-columns: repeat(2, 1fr); max-width: 600px; }
-    }
-    @media (max-width: 600px){
-      .members-grid{ grid-template-columns: 1fr; max-width: 320px; }
-    }
-
-    /* ==========================
-       ALUMNI SECTION
-       ========================== */
-    .alumni-header{
-      text-align: center;
-      margin-bottom: 2.5rem;
-    }
-
-    .alumni-grid{
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .alumni-card{
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--r-xl);
-      box-shadow: var(--shadow-md);
-      padding: 1.8rem 2rem;
-      position: relative;
-      overflow: hidden;
-    }
-    .alumni-card::before{
-      content:"";
-      position:absolute;
-      top:0; left:0; right:0;
-      height:4px;
-    }
-    .alumni-card--field::before{
-      background: linear-gradient(90deg, var(--a1), var(--a2));
-    }
-    .alumni-card--job::before{
-      background: linear-gradient(90deg, var(--a3), var(--a4));
-    }
-    .alumni-card--achievement::before{
-      background: linear-gradient(90deg, var(--a1), var(--a2), var(--a3));
-    }
-
-    .alumni-card-header{
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-    .alumni-card-icon{
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, color-mix(in oklab, var(--a1) 20%, transparent), color-mix(in oklab, var(--a3) 15%, transparent));
-      border: 1px solid var(--line);
-    }
-    .alumni-card-icon svg{
-      width: 20px;
-      height: 20px;
-      stroke: var(--a1);
-    }
-    .alumni-card-title{
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: var(--ink);
-      letter-spacing: 1px;
-    }
-
-    /* Tags */
-    .alumni-tags{
-      display: flex;
-      flex-wrap: wrap;
-      gap: .5rem;
-    }
-    .alumni-tag{
-      display: inline-block;
-      padding: .4rem .85rem;
-      border-radius: 999px;
-      font-size: .75rem;
-      font-weight: 600;
-      background: color-mix(in oklab, var(--a1) 12%, transparent);
-      color: var(--a1);
-      border: 1px solid color-mix(in oklab, var(--a1) 20%, transparent);
-      transition: all .2s ease;
-    }
-    .alumni-tag:hover{
-      background: var(--a1);
-      color: #fff;
-      transform: translateY(-2px);
-    }
-    .alumni-tag--job{
-      background: color-mix(in oklab, var(--a3) 12%, transparent);
-      color: var(--a3);
-      border-color: color-mix(in oklab, var(--a3) 20%, transparent);
-    }
-    .alumni-tag--job:hover{
-      background: var(--a3);
-      color: #fff;
-    }
-
-    /* Achievements */
-    .achievements-grid{
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: .5rem 1rem;
-    }
-    .achievement-item{
-      display: flex;
-      align-items: flex-start;
-      gap: .5rem;
-      padding: .5rem 0;
-      border-bottom: 1px solid var(--line);
-    }
-    .achievement-item:last-child,
-    .achievement-item:nth-last-child(2),
-    .achievement-item:nth-last-child(3){
-      border-bottom: none;
-    }
-    .achievement-dot{
-      width: 8px;
-      height: 8px;
-      min-width: 8px;
-      border-radius: 999px;
-      margin-top: 6px;
-    }
-    .achievement-dot--pink{
-      background: var(--a1);
-      box-shadow: 0 0 8px color-mix(in oklab, var(--a1) 50%, transparent);
-    }
-    .achievement-item span:last-child{
-      font-size: .78rem;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    @media (max-width: 900px){
-      .alumni-grid{ grid-template-columns: 1fr; }
-      .achievements-grid{ grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 600px){
-      .achievements-grid{ grid-template-columns: 1fr; }
-    }
-
-    /* ==========================
-       FOOTER
-       ========================== */
-    footer{
-      padding: 1.8rem var(--pad-x);
-      border-top: 1px solid var(--line);
-      background: color-mix(in oklab, var(--panel) 70%, transparent);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-    }
-    .footer-inner{
-      width:min(var(--container), calc(100% - (var(--pad-x) * 2)));
-      margin:0 auto;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 1rem;
-      flex-wrap:wrap;
-    }
-    .footer-brand{
-      display:flex;
-      align-items:center;
-      gap:.75rem;
-    }
-    .footer-brand img{ height: 22px; width:auto; }
-    .footer-brand span{
-      font-family: var(--font-display);
-      font-weight:700;
-      font-size:.92rem;
-      letter-spacing:-0.6px;
-      color: var(--ink);
-    }
-    footer p{
-      color: var(--muted);
-      font-size:.82rem;
-      font-weight:500;
-    }
+    /* FOOTER */
+    footer{ padding:1.8rem var(--pad-x); border-top:1px solid var(--line); background:rgba(251,251,255,.80); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); }
+    body[data-theme="dark"] footer{ background:rgba(7,7,19,.80); }
+    .footer-inner{ width:min(var(--container),calc(100% - (var(--pad-x)*2))); margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+    .footer-brand{ display:flex; align-items:center; gap:.75rem; }
+    .footer-brand img{ height:22px; width:auto; }
+    .footer-brand span{ font-family:var(--font-display); font-weight:700; font-size:.92rem; letter-spacing:-.6px; color:var(--ink); }
+    footer p{ color:var(--muted); font-size:.82rem; font-weight:500; }
   </style>
 </head>
 
@@ -611,7 +202,6 @@
           <span class="brand-main">Service Design Lab</span>
         </div>
       </a>
-
       <div class="nav-right">
         <ul class="nav-links">
           <li><a href="../index.html">Home</a></li>
@@ -620,15 +210,38 @@
           <li><a href="../project/project_section2v2.html">Project</a></li>
           <li><a href="../related/related_section2v2.html">Related</a></li>
         </ul>
-
         <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle theme">
           <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 3a7 7 0 1 0 9 9 9 9 0 0 1-9-9z"/>
           </svg>
-          Theme
+          <span class="theme-label">Theme</span>
         </button>
       </div>
     </div>
+  </nav>
+
+  <!-- MOBILE BOTTOM TAB BAR -->
+  <nav class="tab-bar" aria-label="하단 내비게이션">
+    <a class="tab-link" href="../index.html">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10L12 3l9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10z"/><path d="M9 21V12h6v9"/></svg>
+      <span>Home</span>
+    </a>
+    <a class="tab-link" href="../professer/professor_section2v2.html">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a7.5 7.5 0 0 1 13 0"/></svg>
+      <span>Professor</span>
+    </a>
+    <a class="tab-link active" href="../members/members_section2v2.html">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M15 21a5 5 0 0 1 8 0"/></svg>
+      <span>Members</span>
+    </a>
+    <a class="tab-link" href="../project/project_section2v2.html">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+      <span>Project</span>
+    </a>
+    <a class="tab-link" href="../related/related_section2v2.html">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><line x1="8.2" y1="10.9" x2="15.8" y2="7.1"/><line x1="8.2" y1="13.1" x2="15.8" y2="16.9"/></svg>
+      <span>Related</span>
+    </a>
   </nav>
 
   <!-- MEMBERS -->
@@ -638,13 +251,9 @@
         <h1 class="page-title" style="margin-bottom:.6rem;">Members</h1>
         <p class="page-subtitle">People Who Design <span class="grad">The Invisible</span></p>
       </div>
-
       <div class="members-grid">
-        <!-- 조남솔 -->
         <div class="member-card reveal">
-          <div class="member-avatar">
-            <img src="../members/jo_namsol.png" alt="조남솔" style="object-position:center 10%;">
-          </div>
+          <div class="member-avatar"><img src="../members/jo_namsol.png" alt="조남솔" style="object-position:center 10%;"></div>
           <div class="member-info">
             <h3 class="member-name">조 남 솔</h3>
             <p class="member-name-en">Jo Namsol</p>
@@ -655,12 +264,8 @@
             <p class="member-research">User Experience<br>User Interface</p>
           </div>
         </div>
-
-        <!-- 조은경 -->
         <div class="member-card reveal">
-          <div class="member-avatar">
-            <img src="../members/jo_eunkyung.jpg" alt="조은경" style="object-position:center 40%;">
-          </div>
+          <div class="member-avatar"><img src="../members/jo_eunkyung.jpg" alt="조은경" style="object-position:center 40%;"></div>
           <div class="member-info">
             <h3 class="member-name">조 은 경</h3>
             <p class="member-name-en">Jo Eunkyung</p>
@@ -671,12 +276,8 @@
             <p class="member-research">User Experience<br>User Interface</p>
           </div>
         </div>
-
-        <!-- 백정윤 -->
         <div class="member-card reveal">
-          <div class="member-avatar">
-            <img src="../members/baek_jeongyoon.jpg" alt="백정윤">
-          </div>
+          <div class="member-avatar"><img src="../members/baek_jeongyoon.jpg" alt="백정윤"></div>
           <div class="member-info">
             <h3 class="member-name">백 정 윤</h3>
             <p class="member-name-en">Baek Jeongyoon</p>
@@ -697,94 +298,29 @@
       <div class="alumni-header reveal">
         <h2 class="section-title">ALUMNI</h2>
       </div>
-
       <div class="alumni-grid">
-        <!-- 진출분야 -->
         <div class="alumni-card alumni-card--field reveal">
           <div class="alumni-card-header">
-            <div class="alumni-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
-              </svg>
-            </div>
+            <div class="alumni-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
             <h3 class="alumni-card-title">진출분야</h3>
           </div>
           <div class="alumni-tags">
-            <span class="alumni-tag">롯데 그린카</span>
-            <span class="alumni-tag">다음 웹툰 작가</span>
-            <span class="alumni-tag">위디엑스</span>
-            <span class="alumni-tag">도시재생 지원센터</span>
-            <span class="alumni-tag">야놀자</span>
-            <span class="alumni-tag">지방공기업</span>
-            <span class="alumni-tag">픽스다인 무브먼트</span>
-            <span class="alumni-tag">다울 사회적 협동 조합</span>
-            <span class="alumni-tag">한국토지주택공사(LH)</span>
-            <span class="alumni-tag">반딧불 에너지</span>
-            <span class="alumni-tag">교원그룹</span>
-            <span class="alumni-tag">한국디자인진흥원</span>
-            <span class="alumni-tag">월드 팩토리</span>
-            <span class="alumni-tag">CJ Logitics</span>
-            <span class="alumni-tag">Tmaxsoft</span>
-            <span class="alumni-tag">와우디랩</span>
-            <span class="alumni-tag">리앙에이지</span>
-            <span class="alumni-tag">DAUM</span>
-            <span class="alumni-tag">the Tree Group</span>
-            <span class="alumni-tag">11번가</span>
-            <span class="alumni-tag">카카오엔터프라이즈</span>
-            <span class="alumni-tag">트럼피아</span>
-            <span class="alumni-tag">디자인소리</span>
-            <span class="alumni-tag">메디바이스</span>
-            <span class="alumni-tag">스타트업 LIK</span>
-            <span class="alumni-tag">dh쇼핑</span>
-            <span class="alumni-tag">크로바몰</span>
+            <span class="alumni-tag">롯데 그린카</span><span class="alumni-tag">다음 웹툰 작가</span><span class="alumni-tag">위디엑스</span><span class="alumni-tag">도시재생 지원센터</span><span class="alumni-tag">야놀자</span><span class="alumni-tag">지방공기업</span><span class="alumni-tag">픽스다인 무브먼트</span><span class="alumni-tag">다울 사회적 협동 조합</span><span class="alumni-tag">한국토지주택공사(LH)</span><span class="alumni-tag">반딧불 에너지</span><span class="alumni-tag">교원그룹</span><span class="alumni-tag">한국디자인진흥원</span><span class="alumni-tag">월드 팩토리</span><span class="alumni-tag">CJ Logitics</span><span class="alumni-tag">Tmaxsoft</span><span class="alumni-tag">와우디랩</span><span class="alumni-tag">리앙에이지</span><span class="alumni-tag">DAUM</span><span class="alumni-tag">the Tree Group</span><span class="alumni-tag">11번가</span><span class="alumni-tag">카카오엔터프라이즈</span><span class="alumni-tag">트럼피아</span><span class="alumni-tag">디자인소리</span><span class="alumni-tag">메디바이스</span><span class="alumni-tag">스타트업 LIK</span><span class="alumni-tag">dh쇼핑</span><span class="alumni-tag">크로바몰</span>
           </div>
         </div>
-
-        <!-- 직무 -->
         <div class="alumni-card alumni-card--job reveal">
           <div class="alumni-card-header">
-            <div class="alumni-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-              </svg>
-            </div>
+            <div class="alumni-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
             <h3 class="alumni-card-title">직무</h3>
           </div>
           <div class="alumni-tags">
-            <span class="alumni-tag alumni-tag--job">사업기획 및 운영</span>
-            <span class="alumni-tag alumni-tag--job">Product Manager</span>
-            <span class="alumni-tag alumni-tag--job">홍보/CS</span>
-            <span class="alumni-tag alumni-tag--job">서비스 기획</span>
-            <span class="alumni-tag alumni-tag--job">협동조합 경영컨설팅</span>
-            <span class="alumni-tag alumni-tag--job">보건관리자</span>
-            <span class="alumni-tag alumni-tag--job">디자인총괄디렉터</span>
-            <span class="alumni-tag alumni-tag--job">소프트웨어 QA</span>
-            <span class="alumni-tag alumni-tag--job">UX 연구원</span>
-            <span class="alumni-tag alumni-tag--job">제품디자인</span>
-            <span class="alumni-tag alumni-tag--job">물류 최적화</span>
-            <span class="alumni-tag alumni-tag--job">UX/UI 디자이너</span>
-            <span class="alumni-tag alumni-tag--job">컨설팅</span>
-            <span class="alumni-tag alumni-tag--job">디자인씽킹 컨설팅</span>
-            <span class="alumni-tag alumni-tag--job">프로젝트 PM</span>
-            <span class="alumni-tag alumni-tag--job">영상 제작</span>
-            <span class="alumni-tag alumni-tag--job">K-디자인 어워드 매니저</span>
-            <span class="alumni-tag alumni-tag--job">아시아 디자인 프라이즈 매니저</span>
-            <span class="alumni-tag alumni-tag--job">센터 사업운영</span>
-            <span class="alumni-tag alumni-tag--job">앱&웹 서비스 기획</span>
-            <span class="alumni-tag alumni-tag--job">웹툰 연재</span>
-            <span class="alumni-tag alumni-tag--job">B2B AI 챗봇 기획</span>
+            <span class="alumni-tag alumni-tag--job">사업기획 및 운영</span><span class="alumni-tag alumni-tag--job">Product Manager</span><span class="alumni-tag alumni-tag--job">홍보/CS</span><span class="alumni-tag alumni-tag--job">서비스 기획</span><span class="alumni-tag alumni-tag--job">협동조합 경영컨설팅</span><span class="alumni-tag alumni-tag--job">보건관리자</span><span class="alumni-tag alumni-tag--job">디자인총괄디렉터</span><span class="alumni-tag alumni-tag--job">소프트웨어 QA</span><span class="alumni-tag alumni-tag--job">UX 연구원</span><span class="alumni-tag alumni-tag--job">제품디자인</span><span class="alumni-tag alumni-tag--job">물류 최적화</span><span class="alumni-tag alumni-tag--job">UX/UI 디자이너</span><span class="alumni-tag alumni-tag--job">컨설팅</span><span class="alumni-tag alumni-tag--job">디자인씽킹 컨설팅</span><span class="alumni-tag alumni-tag--job">프로젝트 PM</span><span class="alumni-tag alumni-tag--job">영상 제작</span><span class="alumni-tag alumni-tag--job">K-디자인 어워드 매니저</span><span class="alumni-tag alumni-tag--job">아시아 디자인 프라이즈 매니저</span><span class="alumni-tag alumni-tag--job">센터 사업운영</span><span class="alumni-tag alumni-tag--job">앱&amp;웹 서비스 기획</span><span class="alumni-tag alumni-tag--job">웹툰 연재</span><span class="alumni-tag alumni-tag--job">B2B AI 챗봇 기획</span>
           </div>
         </div>
       </div>
-
-      <!-- 성과 -->
       <div class="alumni-card alumni-card--achievement reveal">
         <div class="alumni-card-header">
-          <div class="alumni-card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-            </svg>
-          </div>
+          <div class="alumni-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
           <h3 class="alumni-card-title">성과</h3>
         </div>
         <div class="achievements-grid">
@@ -837,44 +373,25 @@
   </footer>
 
   <script>
-    // ===== Nav scroll =====
     const nav = document.getElementById('nav');
-    const setScrolled = () => {
-      if (window.scrollY > 12) nav.classList.add('scrolled');
-      else nav.classList.remove('scrolled');
-    };
-    window.addEventListener('scroll', setScrolled);
-    window.addEventListener('load', setScrolled);
+    const setScrolled = () => nav.classList.toggle('scrolled', window.scrollY > 12);
+    window.addEventListener('scroll', setScrolled, { passive: true });
+    setScrolled();
 
-    // ===== Reveal =====
-    const reveals = document.querySelectorAll('.reveal');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) e.target.classList.add('active');
-      });
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); });
     }, { threshold: 0.12 });
-    reveals.forEach(el => io.observe(el));
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-    // ===== Dark mode =====
     const themeBtn = document.getElementById('themeBtn');
     const themeIcon = document.getElementById('themeIcon');
-
-    const applyTheme = (t) => {
-      document.body.setAttribute('data-theme', t);
-      if (t === 'dark') {
-        themeIcon.innerHTML = '<circle cx="12" cy="12" r="5"></circle><path d="M12 1v3M12 20v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M1 12h3M20 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"></path>';
-      } else {
-        themeIcon.innerHTML = '<path d="M12 3a7 7 0 1 0 9 9 9 9 0 0 1-9-9z"></path>';
-      }
-    };
-
+    const SUN = '<circle cx="12" cy="12" r="5"></circle><path d="M12 1v3M12 20v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M1 12h3M20 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"></path>';
+    const MOON = '<path d="M12 3a7 7 0 1 0 9 9 9 9 0 0 1-9-9z"></path>';
+    const applyTheme = t => { document.body.setAttribute('data-theme', t); themeIcon.innerHTML = t === 'dark' ? SUN : MOON; };
     const saved = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    applyTheme(saved || (prefersDark ? 'dark' : 'light'));
-
+    applyTheme(saved || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light'));
     themeBtn.addEventListener('click', () => {
-      const curr = document.body.getAttribute('data-theme') || 'light';
-      const next = curr === 'dark' ? 'light' : 'dark';
+      const next = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       localStorage.setItem('theme', next);
       applyTheme(next);
     });
